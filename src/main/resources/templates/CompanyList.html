@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>公司列表</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="JS/JST/JST.js?v=20200426" type="text/javascript"></script>
+</head>
+<body>
+<div style="margin: auto;width: 1000px;">
+    <div style="width: 320px;height: 60px;background: url(logo.jpg) no-repeat center center;margin-right: 15px;"></div>
+</div>
+<br/>
+<br/>
+<div style="margin: auto;width: 1200px;">
+    <table class="layui-hide" id="test"  style="width:1200px;text-align:center;table-layout: fixed;"></table>
+</div>
+<script type="text/html" id="titleTpl">
+    <a href="/t?qybh={{d.qybh}}" class="layui-table-link">{{d.qymc}}</a>
+</script>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+
+            ,url:'/getCompanyList'
+            ,cols: [
+                [
+                    {field:'id', width:100, title: '序号' ,align: "center",sort: true},
+                    {field:'qybh', hide:true},
+                    {field:'qymc', width:300, title: '企业名称',align: "center",templet: '#titleTpl'},
+                    {field:'qywydm', width:300, title: '统一信用代码',align: "center"},
+                    {field:'fddbr', width:200, title: '法定代表人',align: "center"},
+                    {field:'xzq', width:80, title: '行政区',align: "center", hide:true}
+                ]
+            ]
+            ,page: true
+            ,limit: 20
+            ,request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                ,limitName: 'limit' //每页数据量的参数名，默认：limit
+            }
+            , done: function () {
+                $(".layui-hide").css("display","none");
+            }
+
+        });
+    });
+</script>
+<br/>
+<br/>
+<div th:insert="~{index::copy}"></div>
+</body>
+</html>

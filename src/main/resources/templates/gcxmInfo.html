@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>项目信息</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+    <link href="CSS/common.css" rel="stylesheet" type="text/css">
+    <link href="CSS/style.css" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="JS/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="JS/js/tab.js" type="text/javascript"></script>
+    <script src="JS/JST/JST.js?v=20200426" type="text/javascript"></script>
+    <style type="text/css">
+        * {
+            font-size: 13px;
+        }
+
+        table tr {
+            height: 30px;
+        }
+
+        .inputA {
+            background: #FFF;
+            border: 1px solid #c9c9c9;
+            height: 25px;
+            margin-top: 4px;
+            margin-left: 4px;
+            width: 200px;
+            padding-top: 6px;
+            line-height: 30px;
+            vertical-align: middle;
+        }
+
+        .font9Black {
+            font-family: "宋体";
+            font-size: 9pt;
+            color: #555555;
+            font-weight: bold;
+            width: 20%;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .td1 {
+            padding: 5px;
+        }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: keep-all;
+        }
+
+        .highLight {
+            font-weight: bold;
+        }
+
+    </style>
+    <script>
+        layui.use('element', function () {
+            var $ = layui.jquery
+                , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+            //触发事件
+            var active = {
+                tabAdd: function () {
+                    //新增一个Tab项
+                    element.tabAdd('demo', {
+                        title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                        , content: '内容' + (Math.random() * 1000 | 0)
+                        , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                    })
+                }
+                , tabDelete: function (othis) {
+                    //删除指定Tab项
+                    element.tabDelete('demo', '44'); //删除：“商品管理”
+                    othis.addClass('layui-btn-disabled');
+                }
+                , tabChange: function () {
+                    //切换到指定Tab项
+                    element.tabChange('demo', '22'); //切换到：用户管理
+                }
+            };
+
+            $('.site-demo-active').on('click', function () {
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+
+            //Hash地址的定位
+            var layid = location.hash.replace(/^#test=/, '');
+            element.tabChange('test', layid);
+            element.on('tab(test)', function (elem) {
+                location.hash = 'test=' + $(this).attr('lay-id');
+            });
+        });
+    </script>
+</head>
+<body>
+<div style="width: 100%; text-align: center;">
+    <div style="margin: auto;width: 1000px;">
+        <div style="width: 320px;height: 60px;background: url(logo.jpg) no-repeat center center;margin-right: 15px;"></div>
+    </div>
+    <br/>
+    <br/>
+    <table style="margin: auto; width: 1000px; border-collapse: collapse;" bordercolor="gray" border="1" cellpadding="0"
+           cellspacing="0">
+        <tbody>
+        <tr style="background-color:#8CC7B5;">
+            <td colspan="4">
+                <span style="font-size:22px; font-weight:bold">项目详情</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="font9Black">项目名称:</td>
+            <td align="center" style="font-size: 14px;font-weight: bold" class="td1"th:text="${gcxmxq.xmmc}"/>
+            <td class="font9Black">项目地址:</td>
+            <td align="center" class="td1"th:text="${gcxmxq.xmdz}"/>
+        </tr>
+        <tr>
+            <td class=" font9Black">
+                项目类别:
+            </td>
+            <td id="ZZJGDM" class="td1" th:text="${gcxmxq.xmlb}"/>
+            <td class=" font9Black">工程用途:</td>
+            <td id="LXDH" class="td1" th:text="${gcxmxq.gcyt}"/>
+        </tr>
+        <tr>
+            <td class=" font9Black">项目编码:</td>
+            <td id="YYZZBH" class="td1"th:text="${gcxmxq.xmbm}"/>
+            <td id="S" class="font9Black">建设性质:</td>
+            <td id="SSS" class="td1"th:text="${gcxmxq.jsxz}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">所属地市州:</td>
+            <td class="td1" id="QYLX"th:text="${gcxmxq.ssdsz}"/>
+            <td class="font9Black">所属区县:</td>
+            <td id="clsj" class="td1"th:text="${gcxmxq.ssqx}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">建设单位名称:</td>
+            <td class="td1"th:text="${gcxmxq.jsdwmc}"/>
+            <td class=" font9Black">唯一代码:</td>
+            <td class="td1"th:text="${gcxmxq.wydm}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">总投资(万元):</td>
+            <td align="center" class="td1"th:text="${gcxmxq.ztzwy}"/>
+            <td class="font9Black">总面积(m²):</td>
+            <td align="center" class="td1"th:text="${gcxmxq.zmj}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">报建日期:</td>
+            <td align="center" class="td1" colspan="3"th:text="${gcxmxq.bjrq}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">建设规模:</td>
+            <td id="FDDBR_ ZW" class="td1"colspan="3"th:text="${gcxmxq.jsgm}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">立项文号:</td>
+            <td align="center" class="td1"th:text="${gcxmxq.lxwh}"/>
+            <td class="font9Black">立项级别:</td>
+            <td align="center" class="td1"th:text="${gcxmxq.lxjb}"/>
+        </tr>
+        <tr>
+            <td class="font9Black">经度:</td>
+            <td class="td1"th:text="${gcxmxq.jd}"/>
+            <td class=" font9Black">维度:</td>
+            <td class="td1"th:text="${gcxmxq.wd}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+<div class="layui-tab layui-tab-brief" style="margin: auto; width: 1000px; " lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">招投标</li>
+        <li>合同备案</li>
+        <li>施工许可</li>
+        <li>竣工验收备案</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 40px;">序号</td>
+                    <td style="width: 120px;">招标类型</td>
+                    <td style="width: 120px;">招标方式</td>
+                    <td style="width: 250px;">中标单位名称</td>
+                    <td style="width: 100px;">中标日期</td>
+                    <td style="width: 120px;">中标金额(万元)</td>
+                    <td style="width: 180px;">中标通知书编号</td>
+                    <td style="width: 60px;">操作</td>
+                </tr>
+                <tr th:each="ztb:${list_ztb}">
+                    <td th:text="${ztbStat.count}"/>
+                    <td th:text="${ztb.zblx}"/>
+                    <td th:text="${ztb.zbfs}"/>
+                    <td th:text="${ztb.zbdwmc}"/>
+                    <td th:text="${ztb.zbrq}"/>
+                    <td th:text="${ztb.zbjewy}"/>
+                    <td th:text="${ztb.zbtzsbh}"/>
+                    <td><a th:href="@{ztbXQ(ztbhjbm=${ztb.ztbhjbm})}" target="_blank" style= "width: 50px; color: red"><em class="clickbtn hot">详情</em></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="layui-tab-item">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 40px;">序号</td>
+                    <td style="width: 120px;">合同类别</td>
+                    <td style="width: 200px;">合同备案编号</td>
+                    <td style="width: 150px;">合同金额(万元)</td>
+                    <td style="width: 120px;">合同签订日期</td>
+                    <td style="width: 300px;">承包单位名称</td>
+                    <td style="width: 60px;">操作</td>
+                </tr>
+                <tr th:each="ht:${list_htba}">
+                    <td th:text="${htStat.count}"/>
+                    <td th:text="${ht.htlb}"/>
+                    <td th:text="${ht.htbabh}"/>
+                    <td th:text="${ht.htjewy}"/>
+                    <td th:text="${ht.htqdrq}"/>
+                    <td th:text="${ht.cbdwmc}"/>
+                    <td><a th:href="@{htbaXQ(htbabh=${ht.htbabh})}" target="_blank" style= "width: 50px; color: red"><em class="clickbtn hot">详情</em></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 40px;">序号</td>
+                    <td style="width: 200px;">施工许可证编号</td>
+                    <td style="width: 150px;">合同金额(万元)</td>
+                    <td style="width: 150px;">面积(平方米)</td>
+                    <td style="width: 150px;">合同工期(天)</td>
+                    <td style="width: 120px;">发证日期</td>
+                    <td style="width: 60px;">操作</td>
+                </tr>
+                <tr th:each="xk:${list_sgxk}">
+                    <td th:text="${xkStat.count}"/>
+                    <td th:text="${xk.sgxkzbh}"/>
+                    <td th:text="${xk.htjewy}"/>
+                    <td th:text="${xk.sgmjpfm}"/>
+                    <td th:text="${xk.htgqt}"/>
+                    <td th:text="${xk.fzrq}"/>
+                    <td><a th:href="@{sgxkXQ(sgxkzbh=${xk.sgxkzbh})}" target="_blank" style= "width: 50px; color: red"><em class="clickbtn hot">详情</em></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 40px;">序号</td>
+                    <td style="width: 200px;">竣工验收备案编号</td>
+                    <td style="width: 160px;">实际造价(万元)</td>
+                    <td style="width: 160px;">实际面积(平方米)</td>
+                    <td style="width: 160px;">实际开工日期</td>
+                    <td style="width: 160px;">实际竣工日期</td>
+                    <td style="width: 60px;">操作</td>
+                </tr>
+                <tr th:each="jg:${list_jgysba}">
+                    <td th:text="${jgStat.count}"/>
+                    <td th:text="${jg.jgysbahjbm}"/>
+                    <td th:text="${jg.sjzjwy}"/>
+                    <td th:text="${jg.sjmjpfm}"/>
+                    <td th:text="${jg.sjkgrq}"/>
+                    <td th:text="${jg.sjjgrq}"/>
+                    <td><a th:href="@{jgysbaXQ(jgysbahjbm=${jg.jgysbahjbm})}" target="_blank" style= "width: 50px; color: red"><em class="clickbtn hot">详情</em></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<div th:insert="~{index::copy}"></div>
+</body>
+</html>

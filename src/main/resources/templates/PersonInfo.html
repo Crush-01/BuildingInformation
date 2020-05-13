@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人员信息</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.png">
+    <link href="../static/CSS/common.css" rel="stylesheet" type="text/css">
+    <link href="../static/CSS/style.css" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all">
+    <script src="../static/layui/layui.js" charset="utf-8"></script>
+    <script src="../static/JS/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../static/JS/js/tab.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        * {
+            font-size: 13px;
+        }
+
+        table tr {
+            height: 30px;
+        }
+
+        .inputA {
+            background: #FFF;
+            border: 1px solid #c9c9c9;
+            height: 25px;
+            margin-top: 4px;
+            margin-left: 4px;
+            width: 200px;
+            padding-top: 6px;
+            line-height: 30px;
+            vertical-align: middle;
+        }
+
+        .font9Black {
+            font-family: "宋体";
+            font-size: 9pt;
+            color: #555555;
+            font-weight: bold;
+            width: 20%;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .td1 {
+            padding: 5px;
+        }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: keep-all;
+        }
+
+        .highLight {
+            font-weight: bold;
+        }
+
+    </style>
+    <script>
+        layui.use('element', function () {
+            var $ = layui.jquery
+                , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+            //触发事件
+            var active = {
+                tabAdd: function () {
+                    //新增一个Tab项
+                    element.tabAdd('demo', {
+                        title: '新选项' + (Math.random() * 1000 | 0) //用于演示
+                        , content: '内容' + (Math.random() * 1000 | 0)
+                        , id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                    })
+                }
+                , tabDelete: function (othis) {
+                    //删除指定Tab项
+                    element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+                    othis.addClass('layui-btn-disabled');
+                }
+                , tabChange: function () {
+                    //切换到指定Tab项
+                    element.tabChange('demo', '22'); //切换到：用户管理
+                }
+            };
+
+            $('.site-demo-active').on('click', function () {
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+
+            //Hash地址的定位
+            var layid = location.hash.replace(/^#test=/, '');
+            element.tabChange('test', layid);
+
+            element.on('tab(test)', function (elem) {
+                location.hash = 'test=' + $(this).attr('lay-id');
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div style="width: 100%; text-align: center;">
+    <table style="margin: auto; width: 1000px; border-collapse: collapse;" bordercolor="gray" border="1" cellpadding="0"
+           cellspacing="0">
+        <tbody>
+        <tr style="background-color:#8CC7B5;">
+            <td colspan="4">
+                <span style="font-size:22px; font-weight:bold">人员详情</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="font9Black">姓名:</td>
+            <td id="XM" align="center" style="font-size: 14px; font-weight: bold" colspan= "3" class="td1">梅梦洁</td>
+        </tr>
+        <tr>
+            <td class="font9Black">证件类型:</td>
+            <td id="zjlx"class="td1">身份证</td>
+            <td class="font9Black">证件号码:</td>
+            <td id="zjhm" class="td1">421381********45</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br/>
+<div class="layui-tab layui-tab-brief" style="margin: auto; width: 1000px; " lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">注册信息</li>
+        <li>非注册信息</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 100px;">序号</td>
+                    <td style="width: 200px;">注册类型及等级</td>
+                    <td style="width: 200px;">注册证书编号</td>
+                    <td style="width: 295px;">专业及有效期</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-tab-item">
+            <table cellpadding="0" cellspacing="0" width="100%" class="table" style="text-align:center;border: 1px solid #8CC7B5;table-layout: fixed;">
+                <tbody>
+                <tr style="background-color:#8CC7B5;">
+                    <td style="width: 50px;">序号</td>
+                    <td style="width: 200px;">证书类别</td>
+                    <td style="width: 200px;">证书等级或专业</td>
+                    <td style="width: 200px;">证书编号</td>
+                    <td style="width: 145px;">有效期</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

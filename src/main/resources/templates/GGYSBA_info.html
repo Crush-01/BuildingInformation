@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>竣工验收备案信息详情</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <script src="JS/JST/JST.js?v=20200426" type="text/javascript"></script>
+    <style>
+        .ztb_td{
+            width: 200px;
+            height: 35px;
+            background-color: #D7E8F7;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div style="margin: auto;width: 1000px;">
+    <div style="width: 320px;height: 60px;background: url(logo.jpg) no-repeat center center;margin-right: 15px;"></div>
+</div>
+<br/>
+<br/>
+<table style="margin: auto; width: 1000px; border-collapse: collapse;font-weight: bold;">
+    <tr>
+        <td style="font-size: 18px; font-weight: bold; line-height: 35px;">施竣工验收备案信息详情</td>
+    </tr>
+    <tr>
+        <td>
+            <table class="layui-table">
+                <tbody>
+                <tr>
+                    <td class="ztb_td">实际造价（万元）</td>
+                    <td th:text="${jgysba.sjzjwy}"/>
+                </tr>
+                <tr>
+                    <td class="ztb_td">实际面积（平方米）</td>
+                    <td th:text="${jgysba.sjmjpfm}"/>
+                </tr>
+                <tr>
+                    <td class="ztb_td">实际建设规模</td>
+                    <td th:text="${jgysba.sjjsgm}"/>
+                </tr>
+                <tr>
+                    <td class="ztb_td">实际开工日期</td>
+                    <td th:text="${jgysba.sjkgrq}"/>
+                </tr>
+                <tr>
+                    <td class="ztb_td">实际竣工日期</td>
+                    <td th:text="${jgysba.sjjgrq}"/>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<br/>
+<div th:insert="~{index::copy}"></div>
+</body>
+</html>

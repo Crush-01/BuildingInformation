@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.query.companys.Dao.CompanyMapper">
+    <!--<resultMap id="BaseResultMap" type="company">-->
+    <!--<id column="id" jdbcType="BIGINT" property="id" />-->
+    <!--<result column="classNo" jdbcType="VARCHAR" property="classno" />-->
+    <!--<result column="className" jdbcType="VARCHAR" property="classname" />-->
+    <!--<result column="studentNumber" jdbcType="INTEGER" property="studentnumber"/>-->
+    <!--</resultMap>-->
+
+    <update id="dropTable">
+        DROP TABLE IF EXISTS `company`;
+    </update>
+    <update id="creatTable">
+        CREATE TABLE `company`  (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `qybh` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+          `qymc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+          `qywydm` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+          `fddbr` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+          `xzq` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+        ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+    </update>
+    <insert id="insertCompanyList">
+        insert into company (qybh,qymc,qywydm,fddbr,xzq)values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.qybh},#{item.qymc},#{item.qywydm},#{item.fddbr},#{item.xzq})
+        </foreach>
+    </insert>
+    <select id="getCompanyList" resultType="company">
+        select * from company limit #{pageStart},#{limit}
+    </select>
+
+    <select id="companyListCount" resultType="java.lang.Integer">
+        select count(*) from company
+    </select>
+    <!--筛选条件查询公司列表-->
+    <select id="SelectToCompanyList" resultType="company">
+        select qybh,qymc,qywydm,fddbr,xzq from hb_qyxx where qymc =#{qymc}
+    </select>
+    <!--根据企业名称查询企业信息-->
+    <select id="SelectCompanyByName" resultType="hB_qyxx">
+        select qybh,qymc,xxdz,qywydm,lxdh,yyzzzch,xzq,djzclx,clsj,zczbjwy,jzcwy,fddbr,fddbrzw,fddbrzc,qyfzr,qyfzrzw,qyfzrzc
+        from hb_qyxx where qymc =#{qymc}
+    </select>
+    <!--根据企业编号查询企业信息-->
+    <select id="SelectCompanyByQYBH" resultType="hB_qyxx">
+        select qybh,qymc,xxdz,qywydm,lxdh,yyzzzch,xzq,djzclx,clsj,zczbjwy,jzcwy,fddbr,fddbrzw,fddbrzc,qyfzr,qyfzrzw,qyfzrzc
+        from hb_qyxx where qybh =#{qybh}
+    </select>
+    <!--企业唯一代码查询企业资质信息-->
+    <select id="qyzzxxByNumber" resultType="hB_qyzzxx">
+        select zsbh,zzmc,dj,fzrq,zsyxjzrq,fzjg from hb_qyzzxx where qybh=#{qybh}
+    </select>
+    <!--人员注册信息列表-->
+    <select id="ryzcxxList" resultType="hB_ryzcxx">
+        select xm,zjhm,zclxjdj,zczsbh,zyjyxq
+        from hb_ryzcxx where hb_ryzcxx.qybh=#{qybh}
+    </select>
+    <!--人员非注册信息列表-->
+    <select id="ryfzcxxList" resultType="hB_ryfzcxx">
+        select xm,zjhm,zslx,zslb,zsdjhzy,zsbh,yxq
+        from hb_ryfzcxx where hb_ryfzcxx.qybh=#{qybh}
+    </select>
+    <!--企业工程项目列表-->
+    <select id="gcxmByNumber" resultType="hB_gcxm">
+        select xmbh,xmmc,xmdz,xmlb,xmbm,ssdsz,ssqx from hb_gcxm where qybh=#{qybh}
+    </select>
+    <!--项目编号查询工程项目详情-->
+    <select id="gcxmXQBynumber" resultType="hB_gcxmxq">
+        select DISTINCT xmbh,xmmc,xmdz,xmlb,gcyt,xmbm,jsxz,ssdsz,ssqx,jsdwmc,wydm,ztzwy,zmj,bjrq,jsgm,lxwh,lxjb,jd,wd
+        from hb_gcxm where xmbh=#{xmbh}
+    </select>
+    <!--项目编号查询招投标列表-->
+    <select id="ztbList" resultType="hB_ztb">
+        select ztbhjbm,zblx,zbfs,zbtzsbh,xmmc,zbrq,jsgm,zbjewy,mjpfm,zbdwmc,xmfzrxm
+        from hb_ztb where xmbh=#{xmbh}
+    </select>
+    <!--招投标详情-->
+    <select id="ztbXQByNumber" resultType="hB_ztb">
+        select DISTINCT xmmc,zbrq,jsgm,zbjewy,mjpfm,zbdwmc,xmfzrxm
+        from hb_ztb where ztbhjbm=#{ztbhjbm}
+    </select>
+    <!--项目编号查询合同备案列表-->
+    <select id="htbaList" resultType="hB_htba">
+        select htbabh,htlb,htjewy,htqdrq,cbdwmc,xmmc,jsgm
+        from hb_htba where xmbh=#{xmbh}
+    </select>
+    <!--合同备案详情-->
+    <select id="htbaXQByNumber" resultType="hB_htba">
+        select DISTINCT htjewy,htqdrq,xmmc,jsgm
+        from hb_htba where htbabh=#{htbabh}
+    </select>
+    <!--施工许可列表-->
+    <select id="sgxkList" resultType="hB_sgxk">
+        select sgxkzbh,htjewy,sgmjpfm,htgqt,fzrq,jsgm,jsdwmc,xmfzrxm
+        from hb_sgxk where xmbh=#{xmbh}
+    </select>
+    <!--施工许可详情-->
+    <select id="sgxkXQByNumber" resultType="hB_sgxk">
+        select DISTINCT htjewy,jsgm,htgqt,sgmjpfm,jsdwmc,fzrq,xmfzrxm
+        from hb_sgxk where sgxkzbh=#{sgxkzbh}
+    </select>
+    <!--竣工验收备案列表-->
+    <select id="jgysbaList" resultType="hB_jgysba">
+        select jgysbahjbm,sjzjwy,sjmjpfm,sjkgrq,sjjgrq
+        from hb_jgysba where xmbh=#{xmbh}
+    </select>
+    <!--竣工验收备案详情-->
+    <select id="jgysbaXQByNumber" resultType="hB_jgysba">
+        select DISTINCT sjzjwy,sjmjpfm,sjjsgm,sjkgrq,sjjgrq
+        from hb_jgysba where jgysbahjbm=#{jgysbahjbm}
+    </select>
+
+    <!--筛选-->
+    <select id="search" resultType="company">
+        select qybh,qymc,qywydm,fddbr,xzq from hb_qyxx where
+        <if test="city!=null and city!=''">
+            zejgszdsz like CONCAT(#{city},'%')
+        </if>
+        <if test="area!=null and area!=''">
+            and zejgszqx like CONCAT(#{area},'%')
+        </if>
+        <if test="capital &gt;= 0">
+            and zczbjwy &gt;= #{capital}
+        </if>
+    </select>
+</mapper>
